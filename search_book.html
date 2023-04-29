@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Books</title>
+    <style>
+        body {
+            background-color: #F5F5F5;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 50px;
+        }
+        h1 {
+        color: #003366;
+        font-size: 48px;
+        margin-bottom: 40px;
+        }
+    
+        form {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+        }
+    
+        label {
+        font-size: 24px;
+        margin-right: 10px;
+        }
+    
+        input[type="text"] {
+        padding: 10px;
+        font-size: 18px;
+        border-radius: 4px;
+        border: none;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease-in-out;
+        }
+    
+        input[type="text"]:focus {
+        outline: none;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+    
+        button[type="submit"] {
+        background-color: #003366;
+        color: #FFF;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        font-size: 18px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        }
+    
+        button[type="submit"]:hover {
+        background-color: #00558C;
+        }
+    
+        table {
+        border-collapse: collapse;
+        margin: 0 auto;
+        margin-bottom: 20px;
+        }
+    
+        th, td {
+        padding: 10px;
+        border: 1px solid #DDD;
+        text-align: left;
+        }
+    
+        th {
+        background-color: #EEE;
+        }
+    
+        button {
+        background-color: #FF4136;
+        color: #FFF;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        font-size: 18px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        }
+    
+        button:hover {
+        background-color: #FF725C;
+        }
+    
+        @keyframes slide-in {
+        from {
+            opacity: 0;
+            transform: translateY(50%);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0%);
+        }
+        }
+    
+        button {
+        animation: slide-in 0.5s ease-in-out;
+        }
+    
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 65, 54, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 20px rgba(255, 65, 54, 0);
+            }   
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 65, 54, 0);
+            }
+        }
+    
+        button.delete {
+        animation: pulse 1s ease-in-out infinite;
+        }
+    </style>
+        </head>
+        <body>
+            <h1>Search Books</h1>
+            <form action="/search" method="GET">
+                <label for="query">Search for a book:</label>
+                <input type="text" id="query" name="query">
+                <button type="submit">Search</button>
+            </form>
+            {% if books %}
+                <h2>Results for "{{ query }}"</h2>
+                <table>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Genre</th>
+                        <th></th>
+                    </tr>
+                    {% for book in books %}
+                        <tr>
+                            <td>{{ book[1] }}</td>
+                            <td>{{ book[2] }}</td>
+                            <td>{{ book[3] }}</td>
+                            <td><button class="delete" onclick="deleteBook('{{ book[0] }}')">Delete</button></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                {% if query %}
+                    <p>No books found for "{{ query }}"</p>
+                {% endif %}
+            {% endif %}
+            <script>
+                function deleteBook(id) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("DELETE", "/books/" + id, true);
+                    
+                    xhr.onload = function () {
+                        if (xhr.readyState === xhr.DONE) {
+                              if (xhr.status === 200) {
+                                     alert("Book deleted successfully");
+                                        location.reload();
+                                } else {
+                                     alert("Unable to delete book");
+                            
+                        }
+                        
+        }
+    };
+    xhr.send();
+}
+
+                console.log(data);
+
+            </script>
+        </body>
+</html>
+    
